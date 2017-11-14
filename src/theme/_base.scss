@@ -1,0 +1,12 @@
+.box-container{
+    padding: $padding-max $padding-max*2;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+@media only screen and (max-width: 40rem){
+    .box-container{
+        padding: $padding-max/2;
+    }
+}

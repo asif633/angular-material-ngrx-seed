@@ -1,3 +1,30 @@
-<p>
-  admin-sidenav works!
-</p>
+<mat-sidenav-container fullscreen>
+  <mat-sidenav #start>
+    <mat-nav-list>
+      <a *ngFor="let navItem of navItems" mat-list-item (click)="start.close()" routerLinkActive #routerLinkActiveInstance="routerLinkActive"
+        [attr.tabindex]="routerLinkActiveInstance.isActive ? 0 : -1" [routerLink]="[navItem.route]">
+        {{navItem.name}}
+      </a>
+
+      <hr>
+    </mat-nav-list>
+    <button mat-button tabindex="-1" (click)="start.close()">CLOSE</button>
+  </mat-sidenav>
+  <div>
+    <mat-toolbar color="primary">
+      <button mat-icon-button (click)="start.open('mouse')">
+        <mat-icon>menu</mat-icon>
+      </button>
+      
+      <div class="toolbar">
+        <h1 routerLink="/">Angular Material Admin</h1>
+      </div>
+
+    </mat-toolbar>
+
+    <div #root="dir" dir="ltr" class="box-container">
+      <router-outlet></router-outlet>
+    </div>
+    
+  </div>
+</mat-sidenav-container>

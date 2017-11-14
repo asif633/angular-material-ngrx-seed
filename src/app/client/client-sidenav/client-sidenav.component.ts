@@ -8,9 +8,12 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 })
 export class ClientSidenavComponent implements OnInit {
 
+  navItems: any;
   constructor() { }
-
   ngOnInit() {
+    this.navItems = [
+      { name: 'Admin', route: 'admin' },
+    ];
   }
 
 }

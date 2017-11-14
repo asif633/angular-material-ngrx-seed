@@ -8,9 +8,11 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 })
 export class AdminSidenavComponent implements OnInit {
 
+  navItems: any;
   constructor() { }
-
   ngOnInit() {
+    this.navItems = [
+      { name: 'Manage Seedmodel', route: 'seedmodel' },
+    ];
   }
-
 }
