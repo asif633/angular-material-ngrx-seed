@@ -5,15 +5,17 @@ import { FormsModule } from '@angular/forms';
 import { AdminRoutingModule } from './admin-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AdminSidenavComponent } from './admin-sidenav/admin-sidenav.component';
-import { SeedModelTableComponent } from './seed-model-table/seed-model-table.component';
-import { SeedModelFormComponent } from './seed-model-form/seed-model-form.component';
-import { SeedModelContainerComponent } from './seed-model-container/seed-model-container.component';
+import { SeedModelTableComponent } from './seedmodel-table/seedmodel-table.component';
+import { SeedModelFormComponent } from './seedmodel-form/seedmodel-form.component';
+import { SeedModelContainerComponent } from './seedmodel-container/seedmodel-container.component';
 import { AdminMaterialModule } from './shared/admin-material.module';
 import { StoreModule } from '@ngrx/store';
 import { seedmodelReducer } from './shared/seedmodel-store/seedmodel.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { SeedmodelEffectsService } from './shared/seedmodel-store/seedmodel.effects';
 import { SeedmodelService } from './shared/seedmodel-store/seedmodel.service';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 @NgModule({
   imports: [
@@ -25,6 +27,8 @@ import { SeedmodelService } from './shared/seedmodel-store/seedmodel.service';
     EffectsModule.forFeature([
       SeedmodelEffectsService,
     ]),
+    FlexLayoutModule,
+    NgxDatatableModule
   ],
   declarations: [
     DashboardComponent,

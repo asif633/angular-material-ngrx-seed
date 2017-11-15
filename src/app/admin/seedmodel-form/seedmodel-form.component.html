@@ -1,0 +1,24 @@
+<mat-card *ngIf="seedmodel">
+  <mat-card-title>Seedmodel Form</mat-card-title>
+  <mat-card-content>
+    <p>
+      <mat-form-field class="full-width">
+        <input matInput #characterCountInputHintExample
+         maxLength="50" name="name" [(ngModel)]="seedmodel.name"
+         placeholder="Enter Name">
+        <mat-hint align="end" aria-live="polite">
+          {{characterCountInputHintExample.value.length}} / 50
+        </mat-hint>
+      </mat-form-field>
+    </p>
+    <button mat-raised-button color="primary" (click)="addSeedmodel()" *ngIf="addNew">
+      Add
+    </button>
+    <button mat-raised-button color="accent" (click)="updateSeedmodel()" *ngIf="!addNew">
+      Update
+    </button>
+    <button mat-raised-button color="secondary" (click)="deleteSeedmodel()" *ngIf="!addNew">
+      Delete
+    </button>
+  </mat-card-content>
+</mat-card>

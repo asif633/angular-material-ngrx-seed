@@ -1,0 +1,12 @@
+<ngx-datatable
+class="material"
+[rows]="seedmodels"
+[columnMode]="'force'"
+[columns]="columns"
+[headerHeight]="50"
+[footerHeight]="50"
+[rowHeight]="'auto'"
+[limit]="5"
+[selectionType]="'single'"
+(select)='onSelect($event)'>
+</ngx-datatable>
