@@ -7,7 +7,7 @@ import { Seedmodel } from '../shared/seedmodel-store/seedmodel.model';
   styleUrls: ['./seedmodel-table.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class SeedModelTableComponent implements OnInit {
+export class SeedmodelTableComponent implements OnInit {
   columns = [
     { prop: 'name' }
   ];

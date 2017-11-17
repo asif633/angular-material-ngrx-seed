@@ -13,7 +13,7 @@ import { AddSeedmodel, UpdateSeedmodel, DeleteSeedmodel } from '../shared/seedmo
   styleUrls: ['./seedmodel-container.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class SeedModelContainerComponent implements OnInit {
+export class SeedmodelContainerComponent implements OnInit {
   addNew: boolean;
   selectedSeedmodel: Seedmodel;
   seedmodels: Observable<Seedmodel[]>;

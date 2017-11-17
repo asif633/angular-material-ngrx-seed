@@ -13,6 +13,7 @@ export class AdminSidenavComponent implements OnInit {
   ngOnInit() {
     this.navItems = [
       { name: 'Manage Seedmodel', route: 'seedmodel' },
+// #sidenav-entry
     ];
   }
 }

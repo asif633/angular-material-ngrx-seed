@@ -5,6 +5,10 @@ import { UUID } from 'angular2-uuid';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../shared/store/state';
 import { LoadSingleSeedmodel } from '../shared/seedmodel-store/seedmodel.actions';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/map';
+import {MatChipInputEvent} from '@angular/material';
+import {ENTER, COMMA} from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'app-seedmodel-form',
@@ -13,12 +17,49 @@ import { LoadSingleSeedmodel } from '../shared/seedmodel-store/seedmodel.actions
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SeedModelFormComponent implements OnInit, OnChanges {
+export class SeedmodelFormComponent implements OnInit, OnChanges {
   @Input() seedmodel: Seedmodel;
   @Input() addNew: boolean;
   @Output() add: EventEmitter<Seedmodel>;
   @Output() update: EventEmitter<Seedmodel>;
   @Output() delete: EventEmitter<Seedmodel>;
+  options = [
+    'One',
+    'Two',
+    'Three'
+  ];
+  toppingList = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
+  filteredOptions: string[];
+  visible = true;
+  selectable = true;
+  removable = true;
+  addOnBlur = true;
+
+  // Enter, comma
+  separatorKeysCodes = [ENTER, COMMA];
+
+  addChip(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    // Add our person
+    if ((value || '').trim()) {
+      this.seedmodel.fruits.push(value.trim());
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+  }
+
+  remove(fruit: any): void {
+    const index = this.seedmodel.fruits.indexOf(fruit);
+
+    if (index >= 0) {
+      this.seedmodel.fruits.splice(index, 1);
+    }
+  }
   constructor() {
     this.add = new EventEmitter<Seedmodel>();
     this.update = new EventEmitter<Seedmodel>();
@@ -26,12 +67,21 @@ export class SeedModelFormComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-
+    this.filteredOptions = this.options;
   }
 
   ngOnChanges() {
     if (this.addNew === true) {
-      this.seedmodel = { id: UUID.UUID(), name: '' };
+      this.seedmodel = { id: UUID.UUID(), name: '', fruits: [] };
+    }
+  }
+
+  onChange(val: string) {
+    if (val === undefined || val === '') {
+      this.filteredOptions = this.options;
+    }else {
+      this.filteredOptions = this.options.filter(option =>
+        option.toLowerCase().indexOf(val.toLowerCase()) === 0);
     }
   }
 

@@ -2,15 +2,15 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AdminSidenavComponent } from './admin-sidenav/admin-sidenav.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { SeedModelContainerComponent } from './seedmodel-container/seedmodel-container.component';
-import { SeedModelFormComponent } from './seedmodel-form/seedmodel-form.component';
+import { SeedmodelContainerComponent } from './seedmodel-container/seedmodel-container.component';
+import { SeedmodelFormComponent } from './seedmodel-form/seedmodel-form.component';
+// #routing-module-import
 
 const routes: Routes = [
   { path: '', component: AdminSidenavComponent, children: [
     { path: '', component: DashboardComponent },
-    { path: 'seedmodel', component: SeedModelContainerComponent, children: [
-      { path: ':id', component: SeedModelFormComponent }
-    ]}
+    { path: 'seedmodel', component: SeedmodelContainerComponent }
+// #routing-module-routes
   ]}
 ];
 
