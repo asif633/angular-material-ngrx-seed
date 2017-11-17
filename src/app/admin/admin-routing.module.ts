@@ -9,7 +9,7 @@ import { SeedmodelFormComponent } from './seedmodel-form/seedmodel-form.componen
 const routes: Routes = [
   { path: '', component: AdminSidenavComponent, children: [
     { path: '', component: DashboardComponent },
-    { path: 'seedmodel', component: SeedmodelContainerComponent }
+    { path: 'seedmodel', component: SeedmodelContainerComponent },
 // #routing-module-routes
   ]}
 ];

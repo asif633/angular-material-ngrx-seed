@@ -11,11 +11,11 @@
     <button mat-button tabindex="-1" (click)="start.close()">CLOSE</button>
   </mat-sidenav>
   <div>
-    <mat-toolbar color="primary">
+    <mat-toolbar fxLayout="row" fxLayoutAlign="start center" color="primary">
       <button mat-icon-button (click)="start.open('mouse')">
         <mat-icon>menu</mat-icon>
       </button>
-      <div class="toolbar">
+      <div class="toolbar" fxHide.lt-sm="true">
           <h1 routerLink="/">Angular Material Admin</h1>
       </div>
       <span class="spacer"></span>
