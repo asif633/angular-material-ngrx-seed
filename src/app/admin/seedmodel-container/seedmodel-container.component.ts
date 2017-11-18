@@ -5,8 +5,9 @@ import * as RouterActions from '../../shared/store/router.actions';
 import { Seedmodel } from '../shared/seedmodel-store/seedmodel.model';
 import { Observable } from 'rxjs/Observable';
 import { selectAllSeedmodels } from '../shared/seedmodel-store/seedmodel.state';
-import { AddSeedmodel, UpdateSeedmodel, DeleteSeedmodel } from '../shared/seedmodel-store/seedmodel.actions';
-
+import { AddSeedmodel, UpdateSeedmodel, DeleteSeedmodel, LoadAllSeedmodel } from '../shared/seedmodel-store/seedmodel.actions';
+// #child-container-import
+// #parent-container-import
 @Component({
   selector: 'app-seedmodel-container',
   templateUrl: './seedmodel-container.component.html',
@@ -17,10 +18,15 @@ export class SeedmodelContainerComponent implements OnInit {
   addNew: boolean;
   selectedSeedmodel: Seedmodel;
   seedmodels: Observable<Seedmodel[]>;
+// #child-container-parents
+// #parent-container-childs
   constructor(private store: Store<AppState>) { }
 
   ngOnInit() {
     this.seedmodels = this.store.select(selectAllSeedmodels);
+    this.store.dispatch(new LoadAllSeedmodel());
+// #child-container-parents-init
+// #parent-container-childs-init
   }
 
   addNewRequest() {
@@ -31,7 +37,6 @@ export class SeedmodelContainerComponent implements OnInit {
   getSelectedEvent(event) {
     this.addNew = false;
     this.selectedSeedmodel = event;
-    console.log('seed', this.selectedSeedmodel);
   }
 
   addEvent(event) {

@@ -1,27 +1,37 @@
 import { Injectable } from '@angular/core';
-// import { Observable } from 'rxjs/Rx';
-// import { Category } from './category.model';
+import { AngularFireDatabase } from 'angularfire2/database';
+import { Seedmodel } from './seedmodel.model';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/mergeMap';
-// import 'rxjs/Rx';
-// import 'rxjs/Observable/combineLatest';
-// import { UUID } from 'angular2-uuid';
 
 @Injectable()
 export class SeedmodelService {
-  // categorys: Observable<Category[]>;
-  // constructor() {
-  //   this.getAll();
-  // }
-  // cats: Category[] = [
-  //     {name: 'Breakfsst', description: 'description', id: UUID.UUID(), image: 'https://i.ytimg.com/vi/CUCtn02Juk0/mqdefault.jpg'},
-  //     {name: 'Lunch', description: 'description', id: UUID.UUID(), image: 'https://i.ytimg.com/vi/CUCtn02Juk0/mqdefault.jpg'},
-  //     {name: 'Dinner', description: 'description', id: UUID.UUID(), image: 'https://i.ytimg.com/vi/CUCtn02Juk0/mqdefault.jpg'},
-  //     {name: 'Breakfsst', description: 'description', id: UUID.UUID(), image: 'https://i.ytimg.com/vi/CUCtn02Juk0/mqdefault.jpg'},
-  //     {name: 'Breakfsst', description: 'description', id: UUID.UUID(), image: 'https://i.ytimg.com/vi/CUCtn02Juk0/mqdefault.jpg'},
-  // ];
-  // getAll() {
-  //   this.categorys = Observable.from(this.cats).toArray();
-  // }
+  // seedmodels: Observable<any[]>;
+  constructor(private db: AngularFireDatabase) { }
+
+  getAllSeedmodels(): Observable<Seedmodel[]> {
+    // this.seedmodels =
+    return this.db.list('seedmodels').snapshotChanges().map(changes =>
+      changes.map(c => ({ $key: c.payload.key, ...c.payload.val() })));
+  }
+
+  addSeedmodel(seedmodel: Seedmodel) {
+    return this.db.list('seedmodels').push(seedmodel);
+  }
+
+  updateSeedmodel(seedmodel: Seedmodel) {
+    const {$key, ...toUpdate} = seedmodel;
+    return this.db.list('seedmodels').update(seedmodel.$key, toUpdate);
+    // return this.db.object(`seedmodels/${seedmodel.$key}`).set(seedmodel);
+  }
+
+  deleteSeedmodel(seedmodelKey: string) {
+    return this.db.list('seedmodels').remove(seedmodelKey);
+  }
+
+  getSingleSeedmodel(seedmodelKey: string): Observable<Seedmodel> {
+    return this.db.object(`seedmodels/${seedmodelKey}`).snapshotChanges().map(c =>
+      ({ $key: c.payload.key, ...c.payload.val() }));
+  }
+
 }

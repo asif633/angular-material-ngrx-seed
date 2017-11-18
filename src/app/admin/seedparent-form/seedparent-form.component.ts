@@ -1,31 +1,31 @@
 import { Component, OnInit, ViewEncapsulation, OnChanges, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { Seedmodel } from '../shared/seedmodel-store/seedmodel.model';
+import { Seedparent } from '../shared/seedparent-store/seedparent.model';
 import { Observable } from 'rxjs/Observable';
 import { UUID } from 'angular2-uuid';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../shared/store/state';
-import { LoadSingleSeedmodel } from '../shared/seedmodel-store/seedmodel.actions';
+import { LoadSingleSeedparent } from '../shared/seedparent-store/seedparent.actions';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
 import {MatChipInputEvent} from '@angular/material';
 import {ENTER, COMMA} from '@angular/cdk/keycodes';
-// #parent-model-import
+import { Seedchild } from '../shared/seedchild-store/seedchild.model';
 // #child-model-import
 @Component({
-  selector: 'app-seedmodel-form',
-  templateUrl: './seedmodel-form.component.html',
-  styleUrls: ['./seedmodel-form.component.scss'],
+  selector: 'app-seedparent-form',
+  templateUrl: './seedparent-form.component.html',
+  styleUrls: ['./seedparent-form.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SeedmodelFormComponent implements OnInit, OnChanges {
-  @Input() seedmodel: Seedmodel;
-  @Input() addNew: boolean;
-// #parent-input
+export class SeedparentFormComponent implements OnInit, OnChanges {
+  @Input() seedparent: Seedparent;
+  @Input() seedchilds: Seedchild[];
 // #child-input
-  @Output() add: EventEmitter<Seedmodel>;
-  @Output() update: EventEmitter<Seedmodel>;
-  @Output() delete: EventEmitter<Seedmodel>;
+  @Input() addNew: boolean;
+  @Output() add: EventEmitter<Seedparent>;
+  @Output() update: EventEmitter<Seedparent>;
+  @Output() delete: EventEmitter<Seedparent>;
   options = [
     'One',
     'Two',
@@ -47,7 +47,7 @@ export class SeedmodelFormComponent implements OnInit, OnChanges {
 
     // Add our person
     if ((value || '').trim()) {
-      this.seedmodel.fruits.push(value.trim());
+      this.seedparent.fruits.push(value.trim());
     }
 
     // Reset the input value
@@ -57,16 +57,16 @@ export class SeedmodelFormComponent implements OnInit, OnChanges {
   }
 
   remove(fruit: any): void {
-    const index = this.seedmodel.fruits.indexOf(fruit);
+    const index = this.seedparent.fruits.indexOf(fruit);
 
     if (index >= 0) {
-      this.seedmodel.fruits.splice(index, 1);
+      this.seedparent.fruits.splice(index, 1);
     }
   }
   constructor() {
-    this.add = new EventEmitter<Seedmodel>();
-    this.update = new EventEmitter<Seedmodel>();
-    this.delete = new EventEmitter<Seedmodel>();
+    this.add = new EventEmitter<Seedparent>();
+    this.update = new EventEmitter<Seedparent>();
+    this.delete = new EventEmitter<Seedparent>();
   }
 
   ngOnInit() {
@@ -75,7 +75,7 @@ export class SeedmodelFormComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
     if (this.addNew === true) {
-      this.seedmodel = { id: UUID.UUID(), name: '', fruits: [] };
+      this.seedparent = { id: UUID.UUID(), name: '', fruits: [], seedchilds: [] };
     }
   }
 
@@ -88,18 +88,18 @@ export class SeedmodelFormComponent implements OnInit, OnChanges {
     }
   }
 
-  addSeedmodel() {
-    this.add.emit(this.seedmodel);
-    this.seedmodel = null;
+  addSeedparent() {
+    this.add.emit(this.seedparent);
+    this.seedparent = null;
   }
 
-  updateSeedmodel() {
-    this.update.emit(this.seedmodel);
-    this.seedmodel = null;
+  updateSeedparent() {
+    this.update.emit(this.seedparent);
+    this.seedparent = null;
   }
 
-  deleteSeedmodel() {
-    this.delete.emit(this.seedmodel);
-    this.seedmodel = null;
+  deleteSeedparent() {
+    this.delete.emit(this.seedparent);
+    this.seedparent = null;
   }
 }

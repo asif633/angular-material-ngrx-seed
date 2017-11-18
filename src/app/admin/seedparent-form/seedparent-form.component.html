@@ -1,0 +1,73 @@
+<mat-card *ngIf="seedparent">
+  <mat-card-title>Seedparent Form</mat-card-title>
+  <mat-card-content>
+    <mat-form-field class="full-width">
+      <input matInput #characterCountInputHintExample maxLength="50" name="name" [(ngModel)]="seedparent.name" placeholder="Enter Name">
+      <mat-hint align="end" aria-live="polite">
+        {{characterCountInputHintExample.value.length}} / 50
+      </mat-hint>
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <textarea matInput placeholder="Description" name="description" [(ngModel)]="seedparent.description"></textarea>
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <mat-select placeholder="Select" name="gender" [(ngModel)]="seedparent.gender" [(value)]="seedparent.gender">
+        <mat-option value="male">Male</mat-option>
+        <mat-option value="female">Female</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <mat-select placeholder="Toppings" [(ngModel)]="seedparent.toppings" multiple>
+        <mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+<!--#form-childs -->
+    <mat-form-field class="full-width">
+      <mat-select placeholder="Seedchilds" [(ngModel)]="seedparent.seedchilds" multiple>
+        <mat-option *ngFor="let seedchild of seedchilds" [value]="seedchild">{{seedchild.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-chip-list #chipList>
+      <mat-chip *ngFor="let seedchild of seedparent.seedchilds" [selectable]="selectable" [removable]="removable" (remove)="remove(fruit)">
+        {{seedchild.name}}
+        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+      </mat-chip>
+    </mat-chip-list>
+    <mat-form-field class="full-width">
+      <input matInput [matDatepicker]="picker" placeholder="Choose a date" [(ngModel)]="seedparent.dob" name="dob">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <input type="text" placeholder="Pick one" aria-label="Number" matInput [(ngModel)]="seedparent.az" (ngModelChange)="onChange(seedparent.az)"
+        [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let option of filteredOptions" [value]="option">
+          {{ option }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <mat-chip-list #chipList>
+        <mat-chip *ngFor="let fruit of seedparent.fruits" [selectable]="selectable" [removable]="removable" (remove)="remove(fruit)">
+          {{fruit}}
+          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        </mat-chip>
+        <input placeholder="New fruit..." [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+          (matChipInputTokenEnd)="addChip($event)">
+      </mat-chip-list>
+    </mat-form-field>
+    <p>
+      <mat-slide-toggle aria-label="Married" [(ngModel)]="seedparent.married" name="married"></mat-slide-toggle>
+    </p>
+    <button mat-raised-button color="primary" (click)="addSeedparent()" *ngIf="addNew">
+      Add
+    </button>
+    <button mat-raised-button color="accent" (click)="updateSeedparent()" *ngIf="!addNew">
+      Update
+    </button>
+    <button mat-raised-button color="warn" (click)="deleteSeedparent()" *ngIf="!addNew">
+      Delete
+    </button>
+  </mat-card-content>
+</mat-card>

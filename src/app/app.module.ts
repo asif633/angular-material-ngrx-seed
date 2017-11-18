@@ -12,6 +12,9 @@ import { StoreRouterConnectingModule, routerReducer, RouterStateSerializer } fro
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { CustomRouterStateSerializer } from './shared/store/router.util';
 import { reducers } from './shared/store/state';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -28,6 +31,8 @@ import { reducers } from './shared/store/state';
     }),
     StoreRouterConnectingModule,
     FlexLayoutModule,
+    AngularFireModule.initializeApp(environment.firebaseCredentials),
+    AngularFireDatabaseModule,
   ],
   providers: [{ provide: RouterStateSerializer, useClass: CustomRouterStateSerializer }],
   bootstrap: [AppComponent]

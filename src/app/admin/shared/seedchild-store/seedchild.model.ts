@@ -1,6 +1,6 @@
+import { Seedparent } from '../seedparent-store/seedparent.model';
 // #child-model-import
-// #parent-model-import
-export interface Seedmodel {
+export interface Seedchild {
     $key?: string;
     id: string;
     name: string;
@@ -12,6 +12,6 @@ export interface Seedmodel {
     multiSel?: string[];
     fruits?: string[];
     toppings?: string[];
+    seedparent?: Seedparent;
 // #child-model
-// #parent-model
 }
