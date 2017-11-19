@@ -37,17 +37,28 @@ export class SeedchildService {
   getSeedparent(seedchildKey) {
     return this.db.list(`seedchild-seedparents/${seedchildKey}`).snapshotChanges()
       .map(res => res.map(res1 => res1.payload.key))
+      .do(res => console.log('seed', res))
       .map(lspc => lspc.map(parentKey => this.db.object(`seedparents/${parentKey}`)
         .snapshotChanges().map(xs => ({ $key: xs.payload.key, ...xs.payload.val() }))))
         .mergeMap(fbojs => Observable.combineLatest(fbojs))
       ;
   }
 
-  addSeedparent(seedparentKey: string, seedchildKey: string) {
-    this.db.object(`seedchild-seedparents/${seedchildKey}/${seedparentKey}`).set(true);
+  getSeedparents(seedchildKey) {
+    return this.db.list(`seedparent-seedchilds`, ref => ref.orderByChild(seedchildKey).equalTo(true)).snapshotChanges()
+    .map(res => res.map(res1 => res1.payload.key))
+    .do(res => console.log('seed', res))
+    .map(lspc => lspc.map(parentKey => this.db.object(`seedparents/${parentKey}`)
+      .snapshotChanges().map(xs => ({ $key: xs.payload.key, ...xs.payload.val() }))))
+      .mergeMap(fbojs => Observable.combineLatest(fbojs)).do(res => console.log('pp', res))
+    ;
   }
 
-  deleteSeedparent(seedchildKey: string) {
-    return this.db.list(`seedchild-seedparents`).remove(seedchildKey);
+  addSeedparent(seedparentKey: string, seedchildKey: string) {
+    return this.db.object(`seedparent-seedchilds/${seedchildKey}/${seedparentKey}`).set(true);
+  }
+
+  deleteSeedparent(seedparentKey: string, seedchildKey: string) {
+    return this.db.list(`seedparent-seedchilds/${seedparentKey}`).remove(seedchildKey);
   }
 }

@@ -22,6 +22,7 @@
       </mat-select>
     </mat-form-field>
 <!--#form-parents -->
+{{seedchild.seedparent | json}}
     <mat-form-field class="full-width">
       <mat-select placeholder="Seedparent" [(ngModel)]="seedchild.seedparent">
         <mat-option *ngFor="let seedparent of seedparents" [value]="seedparent">{{seedparent.name}}</mat-option>

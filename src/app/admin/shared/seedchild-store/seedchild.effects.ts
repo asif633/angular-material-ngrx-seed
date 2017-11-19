@@ -6,6 +6,7 @@ import * as SeedchildActions from './seedchild.actions';
 import { SeedchildService } from './seedchild.service';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/do';
 
 @Injectable()
 export class SeedchildEffectsService {
@@ -31,7 +32,7 @@ export class SeedchildEffectsService {
         .ofType<SeedchildActions.UpdateSeedchild>(SeedchildActions.UPDATE_Seedchild)
         .map(action => action.payload)
         .switchMap(({ seedparent, ...payload }) => this.seedchildService.updateSeedchild(payload)
-            .then(() => this.seedchildService.deleteSeedparent(payload.$key)
+            .then(() => this.seedchildService.deleteSeedparent(seedparent.$key, payload.$key)
                 .then(() => this.seedchildService.addSeedparent(seedparent.$key, payload.$key))
             )
             .then(resolve => new SeedchildActions.UpdateSeedchildSuccess(payload))
@@ -43,7 +44,7 @@ export class SeedchildEffectsService {
         .ofType<SeedchildActions.DeleteSeedchild>(SeedchildActions.DELETE_Seedchild)
         .map(action => action.payload)
         .switchMap(({ seedparent, ...payload }) => this.seedchildService.deleteSeedchild(payload.$key)
-            .then(() => this.seedchildService.deleteSeedparent(payload.$key))
+            .then(() => this.seedchildService.deleteSeedparent(seedparent.$key, payload.$key))
             .then(resolve => new SeedchildActions.DeleteSeedchildSuccess(payload.id)
             , reject => new SeedchildActions.DeleteSeedchildFailure('fail'))
         );
@@ -60,13 +61,16 @@ export class SeedchildEffectsService {
     seedchildLoadSingle$: Observable<Action> = this.actions$
         .ofType<SeedchildActions.LoadSingleSeedchild>(SeedchildActions.LOAD_SINGLE_Seedchild)
         .map(action => action.payload)
+        .do(res => console.log('pep', res))
         .switchMap(seedchildKey => {
             return this.seedchildService.getSingleSeedchild(seedchildKey)
                 .map(single => {
+                    console.log('val', single);
                     return this.seedchildService.getSeedparent(single.$key)
-                        .map(seedparent => ({ ...single, seedparent: seedparent[0] }));
+                        .map(seedparent => ({ ...single, seedparent: seedparent[0] }))
+                        .do(res => console.log('pep', res));
                 });
-        })
+        }).do(re => console.log('dd', re))
         .mergeMap(parentmerge => parentmerge)
         .map(seedchild => new SeedchildActions.LoadSingleSeedchildSuccess(seedchild))
         .catch(err => Observable.of(new SeedchildActions.LoadSingleSeedchildFailure('fail')));

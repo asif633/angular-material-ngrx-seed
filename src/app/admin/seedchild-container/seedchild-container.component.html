@@ -9,7 +9,7 @@
     <app-seedchild-form 
       [seedparents]="seedparents | async" 
       [addNew]="addNew" 
-      [seedchild]="selectedSeedchild" 
+      [seedchild]="selectedSeedchild | async" 
       (add)="addEvent($event)" 
       (update)="updateEvent($event)" 
       (delete)="deleteEvent($event)">

@@ -4,8 +4,8 @@ import { AppState } from '../../shared/store/state';
 import * as RouterActions from '../../shared/store/router.actions';
 import { Seedchild } from '../shared/seedchild-store/seedchild.model';
 import { Observable } from 'rxjs/Observable';
-import { selectAllSeedchilds } from '../shared/seedchild-store/seedchild.state';
-import { AddSeedchild, UpdateSeedchild, DeleteSeedchild, LoadAllSeedchild } from '../shared/seedchild-store/seedchild.actions';
+import { selectAllSeedchilds, getSelectedSeedchild } from '../shared/seedchild-store/seedchild.state';
+import { AddSeedchild, UpdateSeedchild, DeleteSeedchild, LoadAllSeedchild, LoadSingleSeedchild } from '../shared/seedchild-store/seedchild.actions';
 import { Seedparent } from '../shared/seedparent-store/seedparent.model';
 import { selectAllSeedparents } from '../shared/seedparent-store/seedparent.state';
 import { LoadAllSeedparent } from '../shared/seedparent-store/seedparent.actions';
@@ -18,7 +18,7 @@ import { LoadAllSeedparent } from '../shared/seedparent-store/seedparent.actions
 })
 export class SeedchildContainerComponent implements OnInit {
   addNew: boolean;
-  selectedSeedchild: Seedchild;
+  selectedSeedchild: Observable<Seedchild>;
   seedchilds: Observable<Seedchild[]>;
   seedparents: Observable<Seedparent[]>;
 // #child-container-parents
@@ -27,6 +27,8 @@ export class SeedchildContainerComponent implements OnInit {
   ngOnInit() {
     this.seedchilds = this.store.select(selectAllSeedchilds);
     this.seedparents = this.store.select(selectAllSeedparents);
+    this.selectedSeedchild = this.store.select(getSelectedSeedchild);
+
     this.store.dispatch(new LoadAllSeedchild());
     this.store.dispatch(new LoadAllSeedparent());
 // #child-container-parents-init
@@ -39,8 +41,9 @@ export class SeedchildContainerComponent implements OnInit {
 
   getSelectedEvent(event) {
     this.addNew = false;
-    this.selectedSeedchild = event;
-    console.log('seed', this.selectedSeedchild);
+    // this.selectedSeedchild = event;
+    this.store.dispatch(new LoadSingleSeedchild(event.$key));
+    this.selectedSeedchild.subscribe(vv => console.log('val', vv));
   }
 
   addEvent(event) {
