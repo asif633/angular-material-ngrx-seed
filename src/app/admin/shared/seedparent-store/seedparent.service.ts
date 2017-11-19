@@ -44,8 +44,8 @@ export class SeedparentService {
       ;
   }
 
-  addSeedchilds(seedparentKey: string, seedchildkey: string) {
-    this.db.object(`seedparent-seedchilds/${seedparentKey}/${seedchildkey}`).set(true);
+  addSeedchilds(seedparentKey: string, seedchildKey: string) {
+    this.db.object(`seedparent-seedchilds/${seedparentKey}/${seedchildKey}`).set(true);
   }
 
   deleteSeedchilds(seedparentKey: string) {

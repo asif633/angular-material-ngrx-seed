@@ -15,7 +15,12 @@ export class SeedchildEffectsService {
     seedchildAdd$: Observable<Action> = this.actions$
         .ofType<SeedchildActions.AddSeedchild>(SeedchildActions.ADD_Seedchild)
         .map(action => action.payload)
-        .switchMap(payload => this.seedchildService.addSeedchild(payload)
+        .switchMap(({ seedparent, ...payload }) => this.seedchildService.addSeedchild(payload)
+            .then(resolve => {
+                if (seedparent !== undefined || seedparent !== null) {
+                    this.seedchildService.addSeedparent(seedparent.$key, resolve.key);
+                }
+            })
             .then(resolve => new SeedchildActions.AddSeedchildSuccess(payload)
             , reject => new SeedchildActions.AddSeedchildFailure(payload.id)
             )
@@ -25,7 +30,10 @@ export class SeedchildEffectsService {
     seedchildUpdate$: Observable<Action> = this.actions$
         .ofType<SeedchildActions.UpdateSeedchild>(SeedchildActions.UPDATE_Seedchild)
         .map(action => action.payload)
-        .switchMap(payload => this.seedchildService.updateSeedchild(payload)
+        .switchMap(({ seedparent, ...payload }) => this.seedchildService.updateSeedchild(payload)
+            .then(() => this.seedchildService.deleteSeedparent(payload.$key)
+                .then(() => this.seedchildService.addSeedparent(seedparent.$key, payload.$key))
+            )
             .then(resolve => new SeedchildActions.UpdateSeedchildSuccess(payload))
             .catch(err => new SeedchildActions.UpdateSeedchildFailure('failure'))
         );
@@ -34,7 +42,8 @@ export class SeedchildEffectsService {
     seedchildDelete$: Observable<Action> = this.actions$
         .ofType<SeedchildActions.DeleteSeedchild>(SeedchildActions.DELETE_Seedchild)
         .map(action => action.payload)
-        .switchMap((payload) => this.seedchildService.deleteSeedchild(payload.$key)
+        .switchMap(({ seedparent, ...payload }) => this.seedchildService.deleteSeedchild(payload.$key)
+            .then(() => this.seedchildService.deleteSeedparent(payload.$key))
             .then(resolve => new SeedchildActions.DeleteSeedchildSuccess(payload.id)
             , reject => new SeedchildActions.DeleteSeedchildFailure('fail'))
         );
@@ -51,9 +60,15 @@ export class SeedchildEffectsService {
     seedchildLoadSingle$: Observable<Action> = this.actions$
         .ofType<SeedchildActions.LoadSingleSeedchild>(SeedchildActions.LOAD_SINGLE_Seedchild)
         .map(action => action.payload)
-        .switchMap(seedchildKey => this.seedchildService.getSingleSeedchild(seedchildKey)
-            .map(seedchild => new SeedchildActions.LoadSingleSeedchildSuccess(seedchild))
-            .catch(err => Observable.of(new SeedchildActions.LoadSingleSeedchildFailure('fail')))
-        );
+        .switchMap(seedchildKey => {
+            return this.seedchildService.getSingleSeedchild(seedchildKey)
+                .map(single => {
+                    return this.seedchildService.getSeedparent(single.$key)
+                        .map(seedparent => ({ ...single, seedparent: seedparent[0] }));
+                });
+        })
+        .mergeMap(parentmerge => parentmerge)
+        .map(seedchild => new SeedchildActions.LoadSingleSeedchildSuccess(seedchild))
+        .catch(err => Observable.of(new SeedchildActions.LoadSingleSeedchildFailure('fail')));
 
 }

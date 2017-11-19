@@ -5,9 +5,10 @@ import * as RouterActions from '../../shared/store/router.actions';
 import { Seedchild } from '../shared/seedchild-store/seedchild.model';
 import { Observable } from 'rxjs/Observable';
 import { selectAllSeedchilds } from '../shared/seedchild-store/seedchild.state';
-import { AddSeedchild, UpdateSeedchild, DeleteSeedchild } from '../shared/seedchild-store/seedchild.actions';
+import { AddSeedchild, UpdateSeedchild, DeleteSeedchild, LoadAllSeedchild } from '../shared/seedchild-store/seedchild.actions';
 import { Seedparent } from '../shared/seedparent-store/seedparent.model';
 import { selectAllSeedparents } from '../shared/seedparent-store/seedparent.state';
+import { LoadAllSeedparent } from '../shared/seedparent-store/seedparent.actions';
 // #child-container-import
 @Component({
   selector: 'app-seedchild-container',
@@ -26,6 +27,8 @@ export class SeedchildContainerComponent implements OnInit {
   ngOnInit() {
     this.seedchilds = this.store.select(selectAllSeedchilds);
     this.seedparents = this.store.select(selectAllSeedparents);
+    this.store.dispatch(new LoadAllSeedchild());
+    this.store.dispatch(new LoadAllSeedparent());
 // #child-container-parents-init
   }
 

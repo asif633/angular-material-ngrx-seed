@@ -34,4 +34,20 @@ export class SeedchildService {
       ({ $key: c.payload.key, ...c.payload.val() }));
   }
 
+  getSeedparent(seedchildKey) {
+    return this.db.list(`seedchild-seedparents/${seedchildKey}`).snapshotChanges()
+      .map(res => res.map(res1 => res1.payload.key))
+      .map(lspc => lspc.map(parentKey => this.db.object(`seedparents/${parentKey}`)
+        .snapshotChanges().map(xs => ({ $key: xs.payload.key, ...xs.payload.val() }))))
+        .mergeMap(fbojs => Observable.combineLatest(fbojs))
+      ;
+  }
+
+  addSeedparent(seedparentKey: string, seedchildKey: string) {
+    this.db.object(`seedchild-seedparents/${seedchildKey}/${seedparentKey}`).set(true);
+  }
+
+  deleteSeedparent(seedchildKey: string) {
+    return this.db.list(`seedchild-seedparents`).remove(seedchildKey);
+  }
 }
