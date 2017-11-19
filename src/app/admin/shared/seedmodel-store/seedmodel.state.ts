@@ -12,6 +12,11 @@ export const { selectAll: selectAllSeedmodels } = fromSeedmodel.seedmodelAdapter
     selectSeedmodelState
 );
 
+export const getSeedmodelError = createSelector(
+    selectSeedmodelState,
+    state => state.seedmodelError
+);
+
 export const getSelectedSeedmodel = createSelector(
     selectSeedmodelState,
     state => state.selectedSeedmodel

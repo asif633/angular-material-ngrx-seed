@@ -4,7 +4,7 @@ import { AppState } from '../../shared/store/state';
 import * as RouterActions from '../../shared/store/router.actions';
 import { Seedmodel } from '../shared/seedmodel-store/seedmodel.model';
 import { Observable } from 'rxjs/Observable';
-import { selectAllSeedmodels } from '../shared/seedmodel-store/seedmodel.state';
+import { selectAllSeedmodels, getSeedmodelError } from '../shared/seedmodel-store/seedmodel.state';
 import { AddSeedmodel, UpdateSeedmodel, DeleteSeedmodel, LoadAllSeedmodel } from '../shared/seedmodel-store/seedmodel.actions';
 // #child-container-import
 // #parent-container-import
@@ -18,12 +18,14 @@ export class SeedmodelContainerComponent implements OnInit {
   addNew: boolean;
   selectedSeedmodel: Seedmodel;
   seedmodels: Observable<Seedmodel[]>;
+  seedmodelError: Observable<any>;
 // #child-container-parents
 // #parent-container-childs
   constructor(private store: Store<AppState>) { }
 
   ngOnInit() {
     this.seedmodels = this.store.select(selectAllSeedmodels);
+    this.seedmodelError = this.store.select(getSeedmodelError);
     this.store.dispatch(new LoadAllSeedmodel());
 // #child-container-parents-init
 // #parent-container-childs-init

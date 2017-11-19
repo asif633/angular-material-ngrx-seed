@@ -2,6 +2,12 @@
   <div fxFlex="98" class="mb-3">
     <a mat-mini-fab (click)="addNewRequest()"><mat-icon>add</mat-icon></a>
   </div>
+  <div fxFlex="98" class="mb-3" *ngIf="seedmodelError | async">
+    <h2 *ngIf="(seedmodelError | async)?.addError">Can't add, may be some problem.</h2>
+    <h2 *ngIf="!(seedmodelError | async)?.addError">Added successfully.</h2>
+    <span *ngIf="(seedmodelError | async)?.updateError">Can't update, may be some problem.</span>
+    <span *ngIf="(seedmodelError | async)?.deleteError">Can't delete, may be some problem.</span>
+  </div>
   <div fxFlex="48" fxFlex.lt-md="98" class="mb-3">
     <app-seedmodel-table (selSeedmodel)="getSelectedEvent($event)" [seedmodels]="seedmodels | async"></app-seedmodel-table>
   </div>
