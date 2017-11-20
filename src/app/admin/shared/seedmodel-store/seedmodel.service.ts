@@ -34,4 +34,7 @@ export class SeedmodelService {
       ({ $key: c.payload.key, ...c.payload.val() }));
   }
 
+// #parent-childs table import child side
+// #parent-childs table import parent side
+
 }

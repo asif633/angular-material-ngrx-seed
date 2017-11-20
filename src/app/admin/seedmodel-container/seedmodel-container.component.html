@@ -14,7 +14,7 @@
   <div fxFlex="48" fxFlex.lt-md="98" class="mb-3">
     <app-seedmodel-form 
       [addNew]="addNew" 
-      [seedmodel]="selectedSeedmodel" 
+      [seedmodel]="selectedSeedmodel | async" 
       (add)="addEvent($event)" 
       (update)="updateEvent($event)" 
       (delete)="deleteEvent($event)">

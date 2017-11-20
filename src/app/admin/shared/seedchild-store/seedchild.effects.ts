@@ -61,16 +61,13 @@ export class SeedchildEffectsService {
     seedchildLoadSingle$: Observable<Action> = this.actions$
         .ofType<SeedchildActions.LoadSingleSeedchild>(SeedchildActions.LOAD_SINGLE_Seedchild)
         .map(action => action.payload)
-        .do(res => console.log('pep', res))
         .switchMap(seedchildKey => {
             return this.seedchildService.getSingleSeedchild(seedchildKey)
                 .map(single => {
-                    console.log('val', single);
                     return this.seedchildService.getSeedparent(single.$key)
-                        .map(seedparent => ({ ...single, seedparent: seedparent[0] }))
-                        .do(res => console.log('pep', res));
+                        .map(seedparent => ({ ...single, seedparent: seedparent[0] }));
                 });
-        }).do(re => console.log('dd', re))
+        })
         .mergeMap(parentmerge => parentmerge)
         .map(seedchild => new SeedchildActions.LoadSingleSeedchildSuccess(seedchild))
         .catch(err => Observable.of(new SeedchildActions.LoadSingleSeedchildFailure('fail')));

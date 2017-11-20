@@ -21,7 +21,7 @@ export class SeedmodelTableComponent implements OnInit {
   }
 
   onSelect({ selected }) {
-    this.selSeedmodel.emit(selected[0]);
+    this.selSeedmodel.emit(selected[0].$key);
   }
 
 }
