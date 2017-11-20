@@ -6,14 +6,14 @@
     <app-seedchild-table (selSeedchild)="getSelectedEvent($event)" [seedchilds]="seedchilds | async"></app-seedchild-table>
   </div>
   <div fxFlex="48" fxFlex.lt-md="98" class="mb-3">
-    <app-seedchild-form 
-      [seedparents]="seedparents | async" 
-      [addNew]="addNew" 
-      [seedchild]="selectedSeedchild | async" 
-      (add)="addEvent($event)" 
-      (update)="updateEvent($event)" 
-      (delete)="deleteEvent($event)">
-    </app-seedchild-form>
+<app-seedchild-form 
+[seedparents]="seedparents | async" 
+[addNew]="addNew" 
+[seedchild]="selectedSeedchild | async" 
+(add)="addEvent($event)" 
+(update)="updateEvent($event)" 
+(delete)="deleteEvent($event)">
+</app-seedchild-form>
 
   </div>
 </div>

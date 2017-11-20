@@ -4,9 +4,11 @@ import { Observable } from 'rxjs/Observable';
 import { Action } from '@ngrx/store';
 import * as SeedparentActions from './seedparent.actions';
 import { SeedparentService } from './seedparent.service';
+import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/map';
 
 @Injectable()
 export class SeedparentEffectsService {

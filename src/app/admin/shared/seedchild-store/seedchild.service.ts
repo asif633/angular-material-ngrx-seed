@@ -3,6 +3,10 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { Seedchild } from './seedchild.model';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/observable/combineLatest';
 
 @Injectable()
 export class SeedchildService {
@@ -37,7 +41,6 @@ export class SeedchildService {
   getSeedparent(seedchildKey) {
     return this.db.list(`seedchild-seedparents/${seedchildKey}`).snapshotChanges()
       .map(res => res.map(res1 => res1.payload.key))
-      .do(res => console.log('seed', res))
       .map(lspc => lspc.map(parentKey => this.db.object(`seedparents/${parentKey}`)
         .snapshotChanges().map(xs => ({ $key: xs.payload.key, ...xs.payload.val() }))))
         .mergeMap(fbojs => Observable.combineLatest(fbojs))
@@ -47,10 +50,9 @@ export class SeedchildService {
   getSeedparents(seedchildKey) {
     return this.db.list(`seedparent-seedchilds`, ref => ref.orderByChild(seedchildKey).equalTo(true)).snapshotChanges()
     .map(res => res.map(res1 => res1.payload.key))
-    .do(res => console.log('seed', res))
     .map(lspc => lspc.map(parentKey => this.db.object(`seedparents/${parentKey}`)
       .snapshotChanges().map(xs => ({ $key: xs.payload.key, ...xs.payload.val() }))))
-      .mergeMap(fbojs => Observable.combineLatest(fbojs)).do(res => console.log('pp', res))
+      .mergeMap(fbojs => Observable.combineLatest(fbojs))
     ;
   }
 

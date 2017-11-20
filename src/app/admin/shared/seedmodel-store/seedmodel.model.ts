@@ -12,6 +12,6 @@ export interface Seedmodel {
     multiSel?: string[];
     fruits?: string[];
     toppings?: string[];
-// #child-model
-// #parent-model
+// #child-parent-model
+// #parent-child-model
 }

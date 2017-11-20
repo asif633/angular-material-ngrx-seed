@@ -69,10 +69,12 @@ export class SeedparentFormComponent implements OnInit, OnChanges {
     this.delete = new EventEmitter<Seedparent>();
   }
 
+// Lifecycle init method
   ngOnInit() {
     this.filteredOptions = this.options;
   }
 
+// Lifecycle method for watching new add request
   ngOnChanges() {
     if (this.addNew === true) {
       this.seedparent = { id: UUID.UUID(), name: '', fruits: [], seedchilds: [] };
@@ -88,16 +90,19 @@ export class SeedparentFormComponent implements OnInit, OnChanges {
     }
   }
 
+// Emits add request with object
   addSeedparent() {
     this.add.emit(this.seedparent);
     this.seedparent = null;
   }
 
+// Emits update request with object
   updateSeedparent() {
     this.update.emit(this.seedparent);
     this.seedparent = null;
   }
 
+// Emits delete request with object
   deleteSeedparent() {
     this.delete.emit(this.seedparent);
     this.seedparent = null;

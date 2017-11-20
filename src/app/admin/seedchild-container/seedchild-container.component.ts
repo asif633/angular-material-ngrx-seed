@@ -36,7 +36,6 @@ export class SeedchildContainerComponent implements OnInit {
 
   addNewRequest() {
     this.addNew = true;
-    this.selectedSeedchild = null;
   }
 
   getSelectedEvent(event) {
@@ -53,7 +52,6 @@ export class SeedchildContainerComponent implements OnInit {
 
   updateEvent(event) {
     this.store.dispatch(new UpdateSeedchild(event));
-    this.selectedSeedchild = null;
   }
 
   deleteEvent(event) {

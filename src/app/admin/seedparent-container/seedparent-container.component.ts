@@ -15,6 +15,9 @@ import { selectAllSeedchilds } from '../shared/seedchild-store/seedchild.state';
   styleUrls: ['./seedparent-container.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
+/* This component contains SeedmodelForm and SeedmodelTable components.
+ this is a smart component. It subscribes to store and also dispatches actions.
+*/
 export class SeedparentContainerComponent implements OnInit {
   addNew: boolean;
   selectedSeedparent: Seedparent;
@@ -29,27 +32,32 @@ export class SeedparentContainerComponent implements OnInit {
 // #parent-container-childs-init
   }
 
+// New entry request
   addNewRequest() {
     this.addNew = true;
     this.selectedSeedparent = null;
   }
 
+// Dispatch select action after getting event from TableComponent
   getSelectedEvent(event) {
     this.addNew = false;
     this.selectedSeedparent = event;
     console.log('seed', this.selectedSeedparent);
   }
 
+// Dispatch add action after getting event from FormComponent
   addEvent(event) {
     this.store.dispatch(new AddSeedparent(event));
     this.addNew = false;
   }
 
+// Dispatch update action after getting event from FormComponent
   updateEvent(event) {
     this.store.dispatch(new UpdateSeedparent(event));
     this.selectedSeedparent = null;
   }
 
+// Dispatch delete action after getting event from FormComponent
   deleteEvent(event) {
     this.store.dispatch(new DeleteSeedparent(event));
   }

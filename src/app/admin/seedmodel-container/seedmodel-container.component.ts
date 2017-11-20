@@ -14,13 +14,16 @@ import * as SeedmodelActions from '../shared/seedmodel-store/seedmodel.actions';
   styleUrls: ['./seedmodel-container.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
+/* This component contains SeedmodelForm and SeedmodelTable components.
+ this is a smart component. It subscribes to store and also dispatches actions.
+*/
 export class SeedmodelContainerComponent implements OnInit {
   addNew: boolean;
   selectedSeedmodel: Observable<Seedmodel>;
   seedmodels: Observable<Seedmodel[]>;
   seedmodelError: Observable<any>;
-// #child-container-parents
-// #parent-container-childs
+// #child-parent-declare
+// #parent-child-declare
   constructor(private store: Store<AppState>) { }
 
   ngOnInit() {
@@ -32,27 +35,30 @@ export class SeedmodelContainerComponent implements OnInit {
 // #parent-container-childs-init
   }
 
+// New entry request
   addNewRequest() {
     this.addNew = true;
-    this.selectedSeedmodel = null;
   }
 
+// Dispatch select action after getting event from TableComponent
   getSelectedEvent(event) {
     this.addNew = false;
     // this.selectedSeedmodel = event;
-    this.store.dispatch(new SeedmodelActions.LoadSingleSeedmodel(event));
+    this.store.dispatch(new SeedmodelActions.LoadSingleSeedmodel(event.$key));
   }
 
+// Dispatch add action after getting event from FormComponent
   addEvent(event) {
     this.store.dispatch(new SeedmodelActions.AddSeedmodel(event));
     this.addNew = false;
   }
 
+// Dispatch update action after getting event from FormComponent
   updateEvent(event) {
     this.store.dispatch(new SeedmodelActions.UpdateSeedmodel(event));
-    this.selectedSeedmodel = null;
   }
 
+// Dispatch delete action after getting event from FormComponent
   deleteEvent(event) {
     this.store.dispatch(new SeedmodelActions.DeleteSeedmodel(event));
   }

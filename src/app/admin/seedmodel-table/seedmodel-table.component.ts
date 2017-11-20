@@ -7,6 +7,7 @@ import { Seedmodel } from '../shared/seedmodel-store/seedmodel.model';
   styleUrls: ['./seedmodel-table.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
+// Ngx datatable component is used here
 export class SeedmodelTableComponent implements OnInit {
   columns = [
     { prop: 'name' }
@@ -21,7 +22,7 @@ export class SeedmodelTableComponent implements OnInit {
   }
 
   onSelect({ selected }) {
-    this.selSeedmodel.emit(selected[0].$key);
+    this.selSeedmodel.emit(selected[0]);
   }
 
 }

@@ -69,10 +69,12 @@ export class SeedmodelFormComponent implements OnInit, OnChanges {
     this.delete = new EventEmitter<Seedmodel>();
   }
 
+// Lifecycle init method
   ngOnInit() {
     this.filteredOptions = this.options;
   }
 
+// Lifecycle method for watching new add request
   ngOnChanges() {
     if (this.addNew === true) {
       this.seedmodel = { id: UUID.UUID(), name: '', fruits: [] };
@@ -88,16 +90,19 @@ export class SeedmodelFormComponent implements OnInit, OnChanges {
     }
   }
 
+// Emits add request with object
   addSeedmodel() {
     this.add.emit(this.seedmodel);
     this.seedmodel = null;
   }
 
+// Emits update request with object
   updateSeedmodel() {
     this.update.emit(this.seedmodel);
     this.seedmodel = null;
   }
 
+// Emits delete request with object
   deleteSeedmodel() {
     this.delete.emit(this.seedmodel);
     this.seedmodel = null;
